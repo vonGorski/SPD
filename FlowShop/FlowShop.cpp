@@ -65,7 +65,7 @@ int main()
         print_from_vector(raw_data[i]);
         sort_one_vector(raw_data[i]);
         my_algoritm(raw_data[i], data[i]);
-        cout << " PO sortowaniu i smiesznym algorytmie << endl;"
+        cout << " PO sortowaniu i smiesznym algorytmie << endl;" << endl;
         print_from_vector(data[i]);
     }
 }
