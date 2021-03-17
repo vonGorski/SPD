@@ -9,7 +9,7 @@ C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(92,24): warning C4018: '<'
 C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(94,28): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(109,24): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(111,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(196,31): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(206,46): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(214,54): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(214,51): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(259,46): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(267,54): warning C4018: '>': signed/unsigned mismatch
   FlowShop.vcxproj -> C:\Users\Kisieldorf\Desktop\SPD\FlowShop\Debug\FlowShop.exe

@@ -92,7 +92,7 @@ void read_from_file(int I, vector<DATA>& data)
      for (int j = 0; j < data.size() - 1; j++)
      {
          for (int i = 0; i < data.size() - j - 1; i++) {
-             if (data[i].PQ < data[i + 1].PQ)
+             if (data[i].PQ > data[i + 1].PQ)
              {
                  DATA temp = data[i + 1];
                  data[i + 1] = data[i];
@@ -164,42 +164,95 @@ int main()
 
         auto_sort_RP(temp_data1);     
         auto_sort_PQ(temp_data2);
-        my_stiupid_algoritm(temp_data3);
+     //  my_stiupid_algoritm(temp_data3);
+
+       // print_from_vector(temp_data1);
+        cout << endl;
+      //  print_from_vector(temp_data2);
+        cout << endl;
+        print_from_vector(temp_data3);
+        cout << endl;
         // wpisywanie najmniejszych RP
-        for (int i = temp_data1.size()-1; used_one_id.size()<=(raw_data[i].size()/3)  ;i--)
+        int SIZE = raw_data[k].size();
+        cout << SIZE << endl;
+        for (int i = temp_data1.size()-1; i>=((2*SIZE)/2)  ;i--)
         {
             used_one_id.push_back(temp_data1[i].id);
         }
-        //usuwanie juz uzytych       
-        vector<DATA>::iterator it = temp_data2.begin();
-            for (; it != temp_data2.end();)
+
+      /*  for (int i = 0; i < used_one_id.size();i++)
+        {
+            cout << used_one_id[i] << endl;
+        }*/
+      
+        //usuwanie juz uzytych      
+        
+            for (vector<DATA>::iterator it = temp_data2.begin(); it != temp_data2.end();)
             {
-                
-                for (vector<int>::iterator itj = used_one_id.begin(); itj != used_one_id.end(); itj++)
+                bool T=false;
+              //  cout << "kupa" << endl;
+                for (vector<int>::iterator itj = used_one_id.begin(); itj != used_one_id.end();)
                 {
-                    if (it->id == *itj )
+                    if (*itj==it->id) {
+                     //   cout << "kupa w " << endl;
                         it = temp_data2.erase(it);
+                    //    cout << "kupa z" << endl;
+                        T = true;
+                        break;
+                    }
                     else
-                        ++it;
+                    {
+                        ++itj;// cout << "dupa" << endl;
+                     
+                    }
                 }
+                if (T == false)  it++;
+               // cout << "zbita" << endl;
             }
 
         // Wpisywanie najmniejszych PQ
-        for (int i = temp_data1.size() - 1; used_one_id.size() <= (2 * raw_data[i].size() / 3);i--)
+        for (int i = SIZE - 1; used_one_id.size() <= (2 * SIZE / 3);i--)
+        {
+            used_one_id.push_back(temp_data1[i].id);
+        }
+        for (int i = SIZE/3; i > 0;i--)
         {
             used_one_id.push_back(temp_data1[i].id);
         }
 
-        //usuwanie juz uzytych dla data3       
+        ////usuwanie juz uzytych dla data3       
+        //for (vector<DATA>::iterator it = temp_data3.begin(); it != temp_data3.end();)
+        //{
+        //    for (int j = 0; j < used_one_id.size(); j++)
+        //    {
+        //        if (it->id == used_one_id[j])
+        //            it = temp_data3.erase(it);
+        //        else
+        //            ++it;
+        //    }
+        //}
+
         for (vector<DATA>::iterator it = temp_data3.begin(); it != temp_data3.end();)
         {
-            for (int j = 0; j < used_one_id.size(); j++)
+            bool T = false;
+           // cout << "kupa" << endl;
+            for (vector<int>::iterator itj = used_one_id.begin(); itj != used_one_id.end();)
             {
-                if (it->id == used_one_id[j])
+                if (*itj == it->id) {
+                 //   cout << "kupa w " << endl;
                     it = temp_data3.erase(it);
+                 //  cout << "kupa z" << endl;
+                    T = true;
+                    break;
+                }
                 else
-                    ++it;
+                {
+                    ++itj;// cout << "dupa" << endl;
+
+                }
             }
+            if (T == false)  it++;
+          //  cout << "zbita" << endl;
         }
 
         //wpisywanie RP
