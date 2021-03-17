@@ -1,4 +1,12 @@
 ﻿  FlowShop.cpp
 C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(33,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(49,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(49,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(60,19): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(62,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(76,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(78,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(92,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(94,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(109,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kisieldorf\Desktop\SPD\FlowShop\FlowShop.cpp(111,28): warning C4018: '<': signed/unsigned mismatch
   FlowShop.vcxproj -> C:\Users\Kisieldorf\Desktop\SPD\FlowShop\Debug\FlowShop.exe
