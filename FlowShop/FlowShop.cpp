@@ -122,17 +122,23 @@ void read_from_file(int I, vector<DATA>& data)
  }
 
 
- void my_algoritm(vector<DATA> raw_data, vector<DATA>& data)
+ void my_stiupid_algoritm(vector<DATA>& data)
  {
+     vector<DATA>raw_data = data;
+     // sortuje po najwiekszym RPQ
+     sort_one_vector(raw_data);
      // wrzucam nawjiekszy na srodek
      data.push_back(raw_data[raw_data.size()-1]);
      for (int i = raw_data.size()-1; i>=0; i-- )
      {
-         vector<DATA> temp;
-         temp = data;
-         temp.insert(temp.begin(), 1, raw_data[i]);
-         data.push_back(raw_data[i]);
-         if (cmax(data) >> cmax(temp))  data = temp;
+         // wrzucam nawjiekszy na srodek
+         data.push_back(raw_data[raw_data.size() - 1]);
+         for (int i = raw_data.size() - 1; i >= 0; i--)
+         {
+             if (data[i].RP < data[i].PQ) data.insert(data.begin(), 1, raw_data[i]);
+             else data.push_back(raw_data[i]);
+         }
+
      }
   }
 
@@ -146,33 +152,95 @@ int main()
    vector<DATA> raw_data[4];
    vector<DATA> data[4];
 
-    for (int i = 0; i < 2; i++) { //ma byc<4
-        read_from_file(i, raw_data[i]);
+    for (int k = 0; k < 1; k++) { //ma byc<4
+        // odczytaj dane
+        read_from_file(k, raw_data[k]);
+        // tworzy trzy kopie
+        vector<DATA>temp_data1 = raw_data[k];
+        vector<DATA>temp_data2 = raw_data[k];
+        vector<DATA>temp_data3 = raw_data[k];
+
+        vector<int>used_one_id;
+
+        auto_sort_RP(temp_data1);     
+        auto_sort_PQ(temp_data2);
+        my_stiupid_algoritm(temp_data3);
+        // wpisywanie najmniejszych RP
+        for (int i = temp_data1.size()-1; used_one_id.size()<=(raw_data[i].size()/3)  ;i--)
+        {
+            used_one_id.push_back(temp_data1[i].id);
+        }
+        //usuwanie juz uzytych       
+        vector<DATA>::iterator it = temp_data2.begin();
+            for (; it != temp_data2.end();)
+            {
+                
+                for (vector<int>::iterator itj = used_one_id.begin(); itj != used_one_id.end(); itj++)
+                {
+                    if (it->id == *itj )
+                        it = temp_data2.erase(it);
+                    else
+                        ++it;
+                }
+            }
+
+        // Wpisywanie najmniejszych PQ
+        for (int i = temp_data1.size() - 1; used_one_id.size() <= (2 * raw_data[i].size() / 3);i--)
+        {
+            used_one_id.push_back(temp_data1[i].id);
+        }
+
+        //usuwanie juz uzytych dla data3       
+        for (vector<DATA>::iterator it = temp_data3.begin(); it != temp_data3.end();)
+        {
+            for (int j = 0; j < used_one_id.size(); j++)
+            {
+                if (it->id == used_one_id[j])
+                    it = temp_data3.erase(it);
+                else
+                    ++it;
+            }
+        }
+
+        //wpisywanie RP
+        for (int i = raw_data[k].size()-1; i > (2*raw_data[k].size() / 3) - 1; i--) {
+            data[k].push_back(temp_data1[i]);
+                }
+        //wpisywanie srodka
+        for (int i =  (raw_data[k].size()/3) - 1; i >= 0 ; i--) {
+            data[k].push_back(temp_data3[i]);
+        }
+        //wpsiywanie RQ
+        for (int i = (2*raw_data[k].size()/3) - 1; i > (raw_data[k].size() / 3) - 1; i--) {
+            data[k].push_back(temp_data2[i]);
+        }
+          print_from_vector(data[k]);
+           cout << cmax(data[k]);
+      ////  print_from_vector(raw_data[i]);
+      //  sort_one_vector(raw_data[i]);
+      //  cout << " PO sortowaniu RPQ" << endl << endl;
       //  print_from_vector(raw_data[i]);
-        sort_one_vector(raw_data[i]);
-        cout << " PO sortowaniu RPQ" << endl << endl;
-        print_from_vector(raw_data[i]);
-        cout << cmax(raw_data[i]);
-       // my_algoritm(raw_data[i], data[i]);
-        auto_sort_R(raw_data[i]);
-        cout << " PO sortowaniu R "<< endl << endl;
-        print_from_vector(raw_data[i]);
-        cout << cmax(raw_data[i]) << endl;
+      //  cout << cmax(raw_data[i]);
+      // // my_algoritm(raw_data[i], data[i]);
+      //  auto_sort_R(raw_data[i]);
+      //  cout << " PO sortowaniu R "<< endl << endl;
+      //  print_from_vector(raw_data[i]);
+      //  cout << cmax(raw_data[i]) << endl;
 
-        auto_sort_RP(raw_data[i]);
-        cout << " PO sortowaniu RP" << endl << endl;
-        print_from_vector(raw_data[i]);
-        cout << cmax(raw_data[i]) << endl;
+      //  auto_sort_RP(raw_data[i]);
+      //  cout << " PO sortowaniu RP" << endl << endl;
+      //  print_from_vector(raw_data[i]);
+      //  cout << cmax(raw_data[i]) << endl;
 
-        auto_sort_PQ(raw_data[i]);
-        cout << " PO sortowaniu PQ" << endl << endl;
-        print_from_vector(raw_data[i]);
-        cout << cmax(raw_data[i]) << endl;
+      //  auto_sort_PQ(raw_data[i]);
+      //  cout << " PO sortowaniu PQ" << endl << endl;
+      //  print_from_vector(raw_data[i]);
+      //  cout << cmax(raw_data[i]) << endl;
 
-        auto_sort_Q(raw_data[i]);
-        cout << " PO sortowaniu Q" << endl << endl;
-        print_from_vector(raw_data[i]);
-        cout << cmax(raw_data[i]) << endl;
+      //  auto_sort_Q(raw_data[i]);
+      //  cout << " PO sortowaniu Q" << endl << endl;
+      //  print_from_vector(raw_data[i]);
+      //  cout << cmax(raw_data[i]) << endl;
       //  cout << " PO sortowaniu i smiesznym algorytmie << endl;" << endl;
       //  print_from_vector(data[i]);
       //  cout << cmax(data[i]);

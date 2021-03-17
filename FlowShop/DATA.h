@@ -17,13 +17,13 @@ public:
 	int RP;
 	int PQ;
 	//int RQ
-	int lp;
+	int id;
 
 	DATA(int n,int r,int p,int q ) {
 		R = r;
 		P = p;
 		Q = q;
-		lp = n;
+		id = n;
 		RPQ = R + P + Q;
 		RP = R + P;
 		PQ = P + Q;
