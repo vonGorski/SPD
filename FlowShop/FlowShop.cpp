@@ -5,39 +5,51 @@
 #include "DATA.h"
 
 using namespace std;
-
-
+//****************************************
+//definicje globalne
+//****************************************
+// definicja typu danych
 #define DATA_TYPE int
+// sciezka pliku
 string PATH = "./rpq.data.txt";
+string SOLUTION_PATH = "./solution.txt";
+// rozpoznawanie zestawu danych
 string DATAN[4] = { "data.1", "data.2" , "data.3", "data.4" };
 
+//****************************************
+// FUNKCJE
+//****************************************
 
-void read_from_file(int I, vector<DATA>& data)
+// funkcja odczytu pakietu danych z pliku
+void read_from_file(int I, vector<DATA<DATA_TYPE>>& data)
 {
     ifstream file(PATH);
     string s;
+    // pomojaj znaki do momentu napotkania definicji paczki data.i
         while (s != DATAN[I]) file >> s;
     int amount, r, p, q;
         file >> amount;
             for (int i = 0; i < amount; i++)
     {
         file >> r >> p >> q;
-        DATA temp(i, r, p, q);
+        // pomocniczy kontener
+        DATA<DATA_TYPE> temp(i, r, p, q);
         data.push_back(temp);
     }
 }
 
-
- void print_from_vector(vector<DATA> data)
+//wypisanie wszystkich elementow wektora
+ void print_from_vector(vector<DATA<DATA_TYPE>> data)
  {
+     
      for (int i = 0; i < data.size(); i++)
      {
          data[i].PRINT();
      }
  }
 
-
- int cmax(vector<DATA> data)
+ //liczenie dlugosci pracy dla danej kolejki
+ int cmax(vector<DATA<DATA_TYPE>> data)
  {
      int m = 0, c = 0;
      for (int i = 0; i < data.size(); i++)
@@ -49,44 +61,86 @@ void read_from_file(int I, vector<DATA>& data)
      return c;
  }
 
-
- int flowshop(vector<DATA> &data)
+ //zapis do pliku
+ void write_to_file(vector<DATA<DATA_TYPE>>data[]) 
  {
-     int cmax1 = cmax(data), cmax2 = 0;
-     for (int loop = 0; loop < (data.size()/3 ); loop++) {
+     ofstream file_to_write(SOLUTION_PATH);
+     for (int i = 0; i < 4; i++)
+     {
+         file_to_write << DATAN[i] << endl <<
+             data[i].size() << endl;
+         for (vector<DATA<DATA_TYPE>>::iterator i_terator = data[i].begin(); i_terator != data[i].end();)
+         {
+             file_to_write <<
+                 i_terator->R << " " <<
+                 i_terator->P << " " <<
+                 i_terator->Q << endl;
+             i_terator++;
+         }
 
-         for (vector<DATA>::iterator i_terator = data.begin(); i_terator != data.end(); ) {
-             for (vector<DATA>::iterator j_terator = data.begin(); j_terator != data.end(); )
+     }
+ 
+ }
+
+
+ //****************************************
+ //     ALGORYTM
+ //****************************************
+
+ //zwraca optymalna dlugosc kolejki
+ //jednoczesnie dziala na oryginalnym wektorze
+ //wiec kolejnosc jest zachowana
+ DATA_TYPE flowshop(vector<DATA<DATA_TYPE>> &data)
+ {   // zmiene pomocniczne
+     int cmax1 = 0, cmax2 = 0;
+     // 1/8 wielkosci zbioru danych to optymalna liczba do znalezienia najlepszego rozwiazania
+     for (int DEPTH = 0; DEPTH < (data.size()/8 ); DEPTH++) {
+         // dla kazdego polozenia w kolejce
+         for (vector<DATA<DATA_TYPE>>::iterator i_terator = data.begin(); i_terator != data.end(); ) {
+             // sprawdz czy kazdy inny element pasuje lepiej
+             for (vector<DATA<DATA_TYPE>>::iterator j_terator = data.begin(); j_terator != data.end(); )
              {
-                 //DATA temp=data[i]
+                 //sprawdz dotychczasowa dlugosc pracy
                  cmax1 = cmax(data);
+                 //zamien miejscami elementy
                  iter_swap(i_terator, j_terator);
+                 //sprawdz nowa dlugosc kolejki
                  cmax2 = cmax(data);
+                 //jezeli jest gorsza to cofnij zmiane
                  if (cmax1 < cmax2)  iter_swap(i_terator, j_terator);
                  j_terator++;
              }
              i_terator++;
          }
      }
+     // zwroc optymalna dlugosc kolejki
      return cmax(data);
  }
 
 
-
+ //****************************************
+ // MAIN
+ //****************************************
 
 int main()
 {
-   vector<DATA> data[4];
+    // wektor dla kazdego zestawu danych
+   vector<DATA<DATA_TYPE>> data[4];
+   // laczny czas podlegajacy ocenie
    int sum_cmax=0;
    for (int k = 0; k < 4; k++) { //ma byc<4
        // odczytaj dane
        read_from_file(k, data[k]);
-       // tworzy trzy kopies
-  
+       
+       // wywolanie algorytmu i zliczenie lacznego czasu
+       // algorytm dziala na oryginale szeregujac kolejke
        sum_cmax += flowshop(data[k]);
+       // wypisanie danych
        print_from_vector(data[k]);
        cout << "Wynik dla danej bazy danych" << endl;
        cout << cmax(data[k]) << endl;
    }
-   cout << endl << "Wynik koncowy sumy czasow" << sum_cmax <<endl;
+   cout << endl << "Wynik koncowy sumy czasow: " << sum_cmax <<endl;
+   write_to_file(data);
+
 }
